@@ -1,7 +1,15 @@
 {
   "name": "react-compound-composer",
   "version": "1.2.1",
-  "description": "A library ",
+  "description": "Spend less time crafting your Compound Components structure",
+  "keywords": [
+    "compound",
+    "component",
+    "react",
+    "library",
+    "complex",
+    "nested"
+  ],
   "typings": "dist/react-compound-composer.d.ts",
   "types": "dist/react-compound-composer.d.ts",
   "source": "lib/react-compound-composer.ts",
