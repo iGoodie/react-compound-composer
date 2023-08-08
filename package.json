@@ -1,0 +1,23 @@
+{
+  "name": "react-compound-composer",
+  "version": "1.0.0",
+  "description": "A library ",
+  "typings": "dist/react-compound-composer.d.ts",
+  "types": "dist/react-compound-composer.d.ts",
+  "source": "lib/react-compound-composer.ts",
+  "main": "dist/react-compound-composer.js",
+  "module": "dist/react-compound-composer.module.js",
+  "unpkg": "dist/react-compound-composer.umd.js",
+  "exports": "./dist/react-compound-composer.modern.js",
+  "scripts": {
+    "start": "npm run build",
+    "tsc": "tsc",
+    "build": "microbundle --jsx React.createElement --compress",
+    "dev": "microbundle watch"
+  },
+  "author": "iGoodie",
+  "license": "ISC",
+  "devDependencies": {
+    "microbundle": "^0.15.1"
+  }
+}
