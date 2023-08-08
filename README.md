@@ -65,6 +65,7 @@ Check those amazing posts to learn more about Compound Components:
 1. [Simple Counter Example](https://stackblitz.com/edit/stackblitz-starters-e639ls?file=src%2FCounter.component.tsx): An almost in-line example of a Counter with its own state. Here just for a very quick proof-of-concept.
 2. [A Better Structured Example](https://stackblitz.com/edit/stackblitz-starters-ltkqyc?file=src%2Fcomponents%2Faccordion%2Faccordion.tsx): An example of an Accordion compound
 3. [Nested Compounds Example](https://stackblitz.com/edit/stackblitz-starters-aexdiu?file=src%2Fcomponents%2Faccordion%2Fbody%2Faccordion-body.tsx): An example of nested compound
+4. [Flattened Root Example](https://stackblitz.com/edit/stackblitz-starters-yhr2uv?file=src%2FApp.tsx): An example of how you can flatten `Root` components
 
 # How to Use?
 
