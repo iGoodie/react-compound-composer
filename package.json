@@ -1,6 +1,6 @@
 {
   "name": "react-compound-composer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A library ",
   "typings": "dist/react-compound-composer.d.ts",
   "types": "dist/react-compound-composer.d.ts",
