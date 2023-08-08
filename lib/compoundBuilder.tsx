@@ -7,6 +7,14 @@ type CompoundResult<K> = {
   ]: FC | CompoundResult<any>;
 };
 
+function isCompound(value: any): value is CompoundResult<any> {
+  return value.Root != null && Object.values(value).every(isReactFC);
+}
+
+function isReactFC(value: any): value is React.FC {
+  return typeof value === "function";
+}
+
 export function compoundBuilder<
   R extends FC<PropsWithChildren>,
   K extends string[],
@@ -33,8 +41,12 @@ export function compoundBuilder<
   Object.entries(opts.components).map(([subName, subComponent]) => {
     if (subName === "Root") return;
 
-    if (subComponent.name != null) {
-      Compound[subName] = subComponent;
+    if (isCompound(subComponent)) {
+      const subCompound = subComponent;
+      Compound[subName] = subCompound;
+      Object.values(subCompound).forEach((field) => {
+        field.displayName = opts.name + (field.displayName ?? "");
+      });
       return;
     }
 
