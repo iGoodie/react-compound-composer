@@ -1,6 +1,6 @@
 {
   "name": "react-compound-composer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library ",
   "typings": "dist/react-compound-composer.d.ts",
   "types": "dist/react-compound-composer.d.ts",
@@ -13,11 +13,17 @@
     "start": "npm run build",
     "tsc": "tsc",
     "build": "microbundle --jsx React.createElement --compress",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "prepublish": "npm run build"
   },
   "author": "iGoodie",
   "license": "ISC",
   "devDependencies": {
-    "microbundle": "^0.15.1"
+    "@types/react": "^18.2.19",
+    "microbundle": "^0.15.1",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
   }
 }
