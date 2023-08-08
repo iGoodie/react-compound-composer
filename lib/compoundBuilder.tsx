@@ -1,33 +1,33 @@
 import React, { ComponentProps, FC, PropsWithChildren } from "react";
 
 export function compoundBuilder<
-  K extends string[],
   R extends FC,
+  K extends string[],
   // @ts-ignore
   S extends { [key: K[number]]: FC }
 >(opts: {
-  rootName: string;
+  name: string;
   provider: FC<PropsWithChildren>;
-  subComponents: { Root: R } & S;
+  components: { Root: R } & S;
 }): S {
   const Compound: any = {};
 
-  const RootElement: FC<ComponentProps<(typeof opts.subComponents)["Root"]>> = (
+  const RootElement: FC<ComponentProps<(typeof opts.components)["Root"]>> = (
     props
   ) => (
     <opts.provider>
       {/* @ts-ignore */}
-      <opts.subComponents.Root {...props} />
+      <opts.components.Root {...props} />
     </opts.provider>
   );
 
   Compound.Root = RootElement;
-  Compound.Root.displayName = opts.rootName;
+  Compound.Root.displayName = opts.name;
 
-  Object.entries(opts.subComponents).map(([subName, subComponent]) => {
+  Object.entries(opts.components).map(([subName, subComponent]) => {
     if (subName === "Root") return;
     Compound[subName] = subComponent;
-    Compound[subName].displayName = opts.rootName + subName;
+    Compound[subName].displayName = opts.name + subName;
   });
 
   return Compound;
