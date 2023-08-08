@@ -177,6 +177,42 @@ export default function App() {
 }
 ```
 
+## How to Flatten `Root` Components?
+
+If you prefer using the root components without actually using their `Root` properties, you can set the `flattenRoot` option to `true`. Like so:
+
+```tsx
+import { compoundBuilder } from "react-compound-composer";
+
+export const Counter = compoundBuilder({
+  name: "Counter",
+  provider: CounterProvider,
+  flattenRoot: true,
+  components: {
+    Root: CounterRoot,
+    Count: CounterCount,
+    Increase: CounterIncrease,
+    Decrease: CounterDecrease,
+  },
+});
+```
+
+and use the Compound like so:
+
+```tsx
+export default function App() {
+  return (
+    <main>
+      <Counter>
+        <Counter.Increase />
+        <Counter.Count />
+        <Counter.Decrease />
+      </Counter>
+    </main>
+  );
+}
+```
+
 ## License
 
 &copy; 2021 Taha Anılcan Metinyurt (iGoodie)
