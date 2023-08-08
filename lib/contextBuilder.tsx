@@ -1,6 +1,9 @@
 import React, { createContext, PropsWithChildren, useContext } from "react";
 
-export function contextBuilder<T>(hook: () => T, defaultValue?: Partial<T>) {
+export function contextBuilder<T>(
+  hook: () => T = () => ({} as T),
+  defaultValue?: Partial<T>
+) {
   type State = ReturnType<typeof hook>;
 
   const Context = createContext(defaultValue ?? ({} as State));
