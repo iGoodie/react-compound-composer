@@ -72,7 +72,9 @@ Check those amazing posts to learn more about Compound Components:
 
 Start off by creating your context. This context will be available via a hook on all the sub-components. A good way to keep a dispatch-editable state across the components.
 
-```ts
+```tsx
+import { contextBuilder } from "react-compound-composer";
+
 const {
   Context: CounterContext, // Created context is also returned, just for convenience
   Provider: CounterProvider,
@@ -92,7 +94,7 @@ const {
 
 Create a few components to be composed under the compound.
 
-```ts
+```tsx
 import React from "react";
 
 const CounterRoot = (props: React.PropsWithChildren) => {
@@ -111,7 +113,7 @@ const CounterRoot = (props: React.PropsWithChildren) => {
 };
 ```
 
-```ts
+```tsx
 import React from "react";
 
 const CounterCount = () => {
@@ -120,7 +122,7 @@ const CounterCount = () => {
 };
 ```
 
-```ts
+```tsx
 import React from "react";
 
 const CounterIncrease = () => {
@@ -129,7 +131,7 @@ const CounterIncrease = () => {
 };
 ```
 
-```ts
+```tsx
 import React from "react";
 
 const CounterDecrease = () => {
@@ -142,7 +144,9 @@ const CounterDecrease = () => {
 
 Finally compose your Compound with the components you've created.
 
-```ts
+```tsx
+import { compoundBuilder } from "react-compound-composer";
+
 export const Counter = compoundBuilder({
   name: "Counter",
   provider: CounterProvider,
@@ -159,7 +163,7 @@ export const Counter = compoundBuilder({
 
 Use your compound as desired.
 
-```ts
+```tsx
 export default function App() {
   return (
     <main>
