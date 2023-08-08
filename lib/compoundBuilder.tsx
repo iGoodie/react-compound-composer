@@ -1,13 +1,25 @@
 import React, { ComponentProps, FC, PropsWithChildren } from "react";
 
-type CompoundResult<K> = {
+type FlattenedCompound<T> = {
+  [K in keyof T]: T[K] extends { Root: infer R }
+    ? Omit<T[K], "Root"> & R
+    : T[K] extends Record<string, FC>
+    ? FlattenedCompound<T[K]>
+    : T[K];
+};
+
+type Compound<R extends FC<PropsWithChildren>, K> = {
+  Root: R;
+} & SubCompounds<K>;
+
+type SubCompounds<K> = {
   [
     // @ts-ignore
     key: K[number]
-  ]: FC | CompoundResult<any>;
+  ]: FC | SubCompounds<any>;
 };
 
-function isCompound(value: any): value is CompoundResult<any> {
+function isCompound(value: any): value is Compound<any, any> {
   return value.Root != null && Object.values(value).every(isReactFC);
 }
 
@@ -15,13 +27,63 @@ function isReactFC(value: any): value is React.FC {
   return typeof value === "function";
 }
 
+function flattenRoot<
+  K extends string[],
+  R extends FC<PropsWithChildren>,
+  S extends SubCompounds<K>
+>(
+  Compound: { Root: R } & S
+): React.FC<ComponentProps<R>> & FlattenedCompound<S> {
+  const FlattenedCompound: any = Compound.Root;
+
+  Object.keys(Compound).map((fieldName) => {
+    const subName = fieldName as keyof S;
+    if (subName === "Root") return;
+
+    const subComponent = Compound[subName];
+
+    if (isCompound(subComponent)) {
+      // @ts-ignore
+      FlattenedCompound[subName] = flattenRoot(subComponent);
+      return;
+    }
+
+    FlattenedCompound[subName] = subComponent;
+  });
+
+  return FlattenedCompound;
+}
+
 export function compoundBuilder<
   R extends FC<PropsWithChildren>,
   K extends string[],
-  S extends CompoundResult<K>
+  S extends SubCompounds<K>
 >(opts: {
   name: string;
   provider: FC<PropsWithChildren>;
+  flattenRoot: true;
+  components: { Root: R } & S;
+}): ReturnType<typeof flattenRoot<K, R, S>>;
+
+export function compoundBuilder<
+  R extends FC<PropsWithChildren>,
+  K extends string[],
+  S extends SubCompounds<K>
+>(opts: {
+  name: string;
+  provider: FC<PropsWithChildren>;
+  flattenRoot?: boolean;
+  components: { Root: R } & S;
+}): S;
+
+export function compoundBuilder<
+  R extends FC<PropsWithChildren>,
+  K extends string[],
+  S extends SubCompounds<K>
+>(opts: {
+  name: string;
+  provider: FC<PropsWithChildren>;
+  flattenRoot?: boolean;
   components: { Root: R } & S;
 }): S {
   const Compound: any = {};
@@ -54,5 +116,5 @@ export function compoundBuilder<
     Compound[subName].displayName = opts.name + subName;
   });
 
-  return Compound;
+  return opts.flattenRoot ? flattenRoot(Compound) : Compound;
 }
