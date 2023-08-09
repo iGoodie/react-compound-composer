@@ -25,6 +25,32 @@ function isReactFC(value: any): value is React.FC {
   return typeof value === "function";
 }
 
+function cloneFC<F extends FC>(Component: F): F {
+  const ClonedComponent: FC<any> = (props) => <Component {...props} />;
+  ClonedComponent.displayName = Component.displayName;
+  return ClonedComponent as F;
+}
+
+function cloneCompound<
+  K extends string[],
+  R extends FC<PropsWithChildren>,
+  S extends SubCompounds<K>,
+  C extends { Root: R } & S,
+  CI extends C | FC
+>(Compound: CI): CI {
+  const ClonedCompound: any = isReactFC(Compound)
+    ? cloneFC(Compound)
+    : { Root: cloneFC(Compound.Root) };
+
+  Object.entries(Compound).forEach(([fieldName, field]) => {
+    if (isReactFC(field) || isCompound(field)) {
+      ClonedCompound[fieldName] = cloneCompound(field);
+    }
+  });
+
+  return ClonedCompound;
+}
+
 function flattenRoot<
   K extends string[],
   R extends FC<PropsWithChildren>,
@@ -108,13 +134,15 @@ export function compoundBuilder<
       (isFlattenedRoot =
         isReactFC(subComponent) && Object.values(subComponent).some(isReactFC))
     ) {
-      const subCompound = subComponent;
+      const subCompound = cloneCompound(
+        subComponent as any as Compound<any, any> | FC
+      );
       Compound[subName] = subCompound;
 
       const subDisplayName = opts.name + "." + subName;
 
       if (isFlattenedRoot) {
-        subComponent.displayName = subDisplayName;
+        (subCompound as FC).displayName = subDisplayName;
       }
       Object.entries(subCompound).forEach(([fieldName, field]) => {
         if (fieldName === "Root") {

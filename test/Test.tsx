@@ -48,6 +48,16 @@ const Compound2 = compoundBuilder({
   },
 });
 
+console.log("..........")
+
+console.log(SubCompound);
+
+console.log("=========");
+
+console.log(Compound1);
+
+console.log("=========");
+
 console.log(Compound2);
 
 const u1 = (
