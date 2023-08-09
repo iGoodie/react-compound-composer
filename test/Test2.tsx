@@ -9,7 +9,6 @@ const Ctx2 = contextBuilder();
 const SubCompound = compoundBuilder({
   name: "SubCompound",
   provider: Ctx0.Provider,
-  flattenRoot: true,
   components: {
     Root: (props) => <div></div>,
     SubTitle: () => <div />,
@@ -55,10 +54,10 @@ const u1 = (
     <Compound1.Root>
       <Compound1.Title a={1} />
       <Compound1.Desc />
-      <Compound1.Subber>
+      <Compound1.Subber.Root>
         <Compound1.Subber.SubTitle />
         <Compound1.Subber.SubDesc />
-      </Compound1.Subber>
+      </Compound1.Subber.Root>
     </Compound1.Root>
   </main>
 );

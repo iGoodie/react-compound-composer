@@ -3,8 +3,6 @@ import React, { ComponentProps, FC, PropsWithChildren } from "react";
 type FlattenedCompound<T> = {
   [K in keyof T]: T[K] extends { Root: infer R }
     ? Omit<T[K], "Root"> & R
-    : T[K] extends Record<string, FC>
-    ? FlattenedCompound<T[K]>
     : T[K];
 };
 
@@ -103,17 +101,36 @@ export function compoundBuilder<
   Object.entries(opts.components).map(([subName, subComponent]) => {
     if (subName === "Root") return;
 
-    if (isCompound(subComponent)) {
+    let isFlattenedRoot: boolean = false;
+
+    if (
+      isCompound(subComponent) ||
+      (isFlattenedRoot =
+        isReactFC(subComponent) && Object.values(subComponent).some(isReactFC))
+    ) {
       const subCompound = subComponent;
       Compound[subName] = subCompound;
-      Object.values(subCompound).forEach((field) => {
-        field.displayName = opts.name + (field.displayName ?? "");
+
+      const subDisplayName = opts.name + "." + subName;
+
+      if (isFlattenedRoot) {
+        subComponent.displayName = subDisplayName;
+      }
+      Object.entries(subCompound).forEach(([fieldName, field]) => {
+        if (fieldName === "Root") {
+          field.displayName = subDisplayName;
+          return;
+        }
+
+        if (!isReactFC(field)) return;
+        const [oldRootName, ...rest] = (field.displayName ?? "").split(".");
+        field.displayName = subDisplayName + "." + rest.join(".");
       });
       return;
     }
 
     Compound[subName] = subComponent;
-    Compound[subName].displayName = opts.name + subName;
+    Compound[subName].displayName = opts.name + "." + subName;
   });
 
   return opts.flattenRoot ? flattenRoot(Compound) : Compound;

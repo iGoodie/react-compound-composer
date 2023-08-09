@@ -4,11 +4,8 @@ export function contextBuilder<T>(
   hook: () => T = () => ({} as T),
   defaultValue?: Partial<T>
 ) {
-  type State = ReturnType<typeof hook>;
-
-  const Context = createContext(defaultValue ?? ({} as State));
-
-  const useContextHook = () => useContext(Context);
+  const Context = createContext(defaultValue ?? ({} as T));
+  const _useContext = () => useContext(Context);
 
   const Provider = (props: PropsWithChildren) => {
     const { children } = props;
@@ -21,6 +18,7 @@ export function contextBuilder<T>(
   return {
     Context,
     Provider,
-    useContext: useContextHook,
+    Consumer: Context.Consumer,
+    useContext: _useContext,
   };
 }
