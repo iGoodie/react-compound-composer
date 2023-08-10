@@ -1,6 +1,6 @@
 <!-- Logo -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/iGoodie/react-compound-composer/master/.github/assets/logo.png" height="100px" alt="Logo"/>
+  <img src="https://raw.githubusercontent.com/iGoodie/react-compound-composer/master/.github/assets/logo.svg" height="100px" alt="Logo"/>
 </p>
 
 <!-- Slogan -->
