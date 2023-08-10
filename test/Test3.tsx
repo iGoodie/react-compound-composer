@@ -22,13 +22,15 @@ const Counter = compoundBuilder({
   flattenRoot: true,
   components: {
     Root: CounterRoot,
-    Body: CounterRoot,
+    Body: (props: PropsWithChildren) => <div></div>,
+    Foobar: () => useContext().foobar,
   },
 });
 
 <main>
   <Counter foo="foo">
-    <Counter.Body foo="foo">
+    <Counter.Body>
+      <Counter.Foobar />
       <p>Testing</p>
     </Counter.Body>
   </Counter>
