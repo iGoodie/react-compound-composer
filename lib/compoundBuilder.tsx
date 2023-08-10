@@ -57,7 +57,7 @@ function flattenRoot<
   S extends SubCompounds<K>
 >(
   Compound: { Root: R } & S
-): React.FC<ComponentProps<R>> & FlattenedCompound<S> {
+): React.FC<ComponentProps<R>> & FlattenedCompound<Exclude<S, "Root">> {
   const FlattenedCompound: any = Compound.Root;
 
   Object.keys(Compound).map((fieldName) => {
@@ -79,34 +79,34 @@ function flattenRoot<
 }
 
 export function compoundBuilder<
-  R extends FC<PropsWithChildren>,
+  R extends FC<PropsWithChildren<any>>,
   K extends string[],
   S extends SubCompounds<K>
 >(opts: {
   name: string;
-  provider: FC<PropsWithChildren>;
+  provider: FC<PropsWithChildren<any>>;
   flattenRoot: true;
   components: { Root: R } & S;
 }): ReturnType<typeof flattenRoot<K, R, S>>;
 
 export function compoundBuilder<
-  R extends FC<PropsWithChildren>,
+  R extends FC<PropsWithChildren<any>>,
   K extends string[],
   S extends SubCompounds<K>
 >(opts: {
   name: string;
-  provider: FC<PropsWithChildren>;
+  provider: FC<PropsWithChildren<any>>;
   flattenRoot?: boolean;
   components: { Root: R } & S;
 }): S;
 
 export function compoundBuilder<
-  R extends FC<PropsWithChildren>,
+  R extends FC<PropsWithChildren<any>>,
   K extends string[],
   S extends SubCompounds<K>
 >(opts: {
   name: string;
-  provider: FC<PropsWithChildren>;
+  provider: FC<PropsWithChildren<any>>;
   flattenRoot?: boolean;
   components: { Root: R } & S;
 }): S {

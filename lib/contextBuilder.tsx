@@ -1,16 +1,21 @@
 import React, { createContext, PropsWithChildren, useContext } from "react";
 
-export function contextBuilder<T>(
-  hook: () => T = () => ({} as T),
-  defaultValue?: Partial<T>
+export function contextBuilder<P extends PropsWithChildren, T>(
+  hook: (rootProps: P) => T = () => ({} as T)
 ) {
-  const Context = createContext(defaultValue ?? ({} as T));
-  const _useContext = () => useContext(Context);
+  const Context = createContext(null as T);
+  const _useContext = () => {
+    const ctx = useContext(Context);
+    if (ctx == null) {
+      throw new Error("useContext() MUST be called under an appropriate Provider");
+    }
+    return ctx as T;
+  };
 
-  const Provider = (props: PropsWithChildren) => {
+  const Provider = (props: P) => {
     const { children } = props;
 
-    const state = hook();
+    const state = hook(props);
 
     return <Context.Provider value={state}>{children}</Context.Provider>;
   };
