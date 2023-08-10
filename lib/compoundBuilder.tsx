@@ -115,7 +115,7 @@ export function compoundBuilder<
   const RootElement: FC<ComponentProps<(typeof opts.components)["Root"]>> = (
     props
   ) => (
-    <opts.provider>
+    <opts.provider {...props}>
       {/* @ts-ignore */}
       <opts.components.Root {...props} />
     </opts.provider>
