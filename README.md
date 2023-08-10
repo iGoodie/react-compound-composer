@@ -1,7 +1,7 @@
 <!-- Logo -->
-<h1 align="center">
-  ⛓️ react-compound-composer ⛓️
-</h1>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/iGoodie/react-compound-composer/master/.github/assets/logo.png" height="100px" alt="Logo"/>
+</p>
 
 <!-- Slogan -->
 <p align="center">
