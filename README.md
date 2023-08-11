@@ -77,7 +77,7 @@ Start off by creating your context. This context will be available via a hook on
 import { contextBuilder } from "react-compound-composer";
 
 const {
-  Context: CounterContext, // Created context is also returned, just for convenience
+  Consumer: CounterConsumer, // Consumer is also returned, just for convenience
   Provider: CounterProvider,
   useContext: useCounterContext,
 } = contextBuilder(() => {
