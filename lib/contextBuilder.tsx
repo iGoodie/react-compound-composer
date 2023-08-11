@@ -4,6 +4,7 @@ export function contextBuilder<P extends PropsWithChildren, T>(
   hook: (rootProps: P) => T = () => ({} as T)
 ) {
   const Context = createContext(null as T);
+  
   const _useContext = () => {
     const ctx = useContext(Context);
     if (ctx == null) {
@@ -21,7 +22,6 @@ export function contextBuilder<P extends PropsWithChildren, T>(
   };
 
   return {
-    Context,
     Provider,
     Consumer: Context.Consumer,
     useContext: _useContext,

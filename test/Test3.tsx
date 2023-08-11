@@ -6,10 +6,12 @@ type CounterRootProps = PropsWithChildren<{
   foo: string;
 }>;
 
-const { Provider, useContext } = contextBuilder((props: CounterRootProps) => {
-  const foobar = props.foo + "bar";
-  return { foobar };
-});
+const { Consumer, Provider, useContext } = contextBuilder(
+  (props: CounterRootProps) => {
+    const foobar = props.foo + "bar";
+    return { foobar };
+  }
+);
 
 const CounterRoot: FC<CounterRootProps> = (props) => {
   const ctx = useContext();
