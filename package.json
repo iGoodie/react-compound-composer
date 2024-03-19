@@ -1,6 +1,6 @@
 {
   "name": "react-compound-composer",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Spend less time crafting your Compound Components structure",
   "repository": "github:iGoodie/react-compound-composer",
   "keywords": [
@@ -17,7 +17,6 @@
   "main": "dist/react-compound-composer.js",
   "module": "dist/react-compound-composer.module.js",
   "unpkg": "dist/react-compound-composer.umd.js",
-  "exports": "./dist/react-compound-composer.modern.js",
   "scripts": {
     "start": "npm run build",
     "tsc": "tsc",
