@@ -76,12 +76,16 @@ Start off by creating your context. This context will be available via a hook on
 ```tsx
 import { contextBuilder } from "react-compound-composer";
 
+interface CounterRootProps extends React.PropsWithChildren {
+  initialCount?: number;
+}
+
 const {
   Consumer: CounterConsumer, // Consumer is also returned, just for convenience
   Provider: CounterProvider,
   useContext: useCounterContext,
-} = contextBuilder(() => {
-  const [count, setCount] = useState(0);
+} = contextBuilder((rootProps: CounterRootProps) => {
+  const [count, setCount] = useState(rootProps.initialCount ?? 0);
 
   return {
     count,
@@ -98,7 +102,7 @@ Create a few components to be composed under the compound.
 ```tsx
 import React from "react";
 
-const CounterRoot = (props: React.PropsWithChildren) => {
+const CounterRoot = (props: CounterRootProps) => {
   return (
     <div
       style={{
